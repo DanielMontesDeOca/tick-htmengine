@@ -1,0 +1,91 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: htmengine
+      MYSQL_DATABASE: htmengine
+      MYSQL_USER: htmengine
+      MYSQL_PASSWORD: htmengine
+    command: mysqld --sql_mode=""
+  rabbitmq:
+    image: rabbitmq:3.6
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'EARLANGCOOKIE'
+  htmengine:
+    build: ./htmengine
+    volumes:
+      - ./htmengine/app:/home/docker/htmengine-app
+    links:
+      - mysql
+      - rabbitmq
+    ports:
+      - "3002:8080"
+  api:
+    image: node:6.6.0
+    volumes:
+      - ../:/var/lib/tick-htm
+    links:
+      - htmengine
+    ports:
+      - "3001:3000"
+    entrypoint: /var/lib/tick-htm/start.sh
+  telegraf:
+    image: telegraf:1.0.0-rc1
+    volumes:
+      - ./etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ../scripts:/var/lib/telegraf/shared
+    links:
+      - influxdb
+      - api
+    ports:
+      - "8092:8092/udp"
+      - "8094:8094"
+      - "8125:8125/udp"
+  influxdb:
+    image: influxdb:1.0.0-rc1
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+  chronograf:
+    image: chronograf:1.0.0-rc1
+    volumes:
+      - ./data/chronograf:/var/lib/chronograf
+    ports:
+      - "10000:10000"
+    links:
+      - influxdb
+  kapacitor:
+    image: kapacitor:1.0.0-rc1
+    environment:
+      KAPACITOR_HOSTNAME: kapacitor
+      KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
+    volumes:
+      - ./data/kapacitor:/var/lib/kapacitor
+    links:
+      - api
+      - influxdb
+    ports:
+      - "9092:9092"
+  influxdb-cli:
+    image: influxdb:1.0.0-rc1
+    entrypoint:
+      - influx
+      - -host
+      - influxdb
+    links:
+      - influxdb
+  kapacitor-cli:
+    image: kapacitor:1.0.0-rc1
+    entrypoint: bash
+    environment:
+      KAPACITOR_URL: http://kapacitor:9092
+    links:
+      - kapacitor
