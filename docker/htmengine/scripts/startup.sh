@@ -1,5 +1,17 @@
 #!/bin/bash
 
+until nc -z -v -w30 mysql 3306
+do
+  echo "Waiting for mysql to start..."
+  sleep 5
+done
+
+until nc -z -v -w30 rabbitmq 5672
+do
+  echo "Waiting for rabbitmq to start..."
+  sleep 5
+done
+
 export APPLICATION_CONFIG_PATH=/home/docker/htmengine-app/src/conf
 
 cd /home/docker/htmengine-app/src/
