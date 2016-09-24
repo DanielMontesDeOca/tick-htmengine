@@ -19,7 +19,6 @@ class HtmEngineClient {
       const body = value + ' ' + timestamp;
 
       request.post(url, {body}, (err, res) => {
-        console.log(err, res);
         if (err) return reject(err);
         return resolve(res);
       });

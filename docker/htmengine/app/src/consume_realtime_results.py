@@ -36,7 +36,7 @@ appConfig = Config("application.conf", os.environ["APPLICATION_CONFIG_PATH"])
 
 modelResultsExchange = appConfig.get("metric_streamer",
                                      "results_exchange_name")
-queueName = "skeleton_results"
+queueName = "htmengine_results"
 
 
 
