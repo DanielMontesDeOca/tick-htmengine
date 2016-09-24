@@ -94,6 +94,7 @@ def upgrade():
     sa.Column('anomaly_score', mysql.DOUBLE(), nullable=True),
     sa.Column('display_value', sa.INTEGER(), autoincrement=False,
               nullable=True),
+    sa.Column('multi_step_best_predictions', mysql.DOUBLE(), nullable=True),
     sa.ForeignKeyConstraint(['uid'], [u'metric.uid'],
       name='metric_data_to_metric_fk', onupdate='CASCADE', ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('uid', 'rowid')
