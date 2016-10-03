@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  integration-tests:
+    image: node:6.6.0
+    volumes:
+      - ../test:/var/lib/tick-htm-integration/app
+      - ./scripts/test:/var/lib/tick-htm-integration/scripts
+    links:
+      - api
+      - htmengine
+    entrypoint: /var/lib/tick-htm-integration/scripts/startup.sh
