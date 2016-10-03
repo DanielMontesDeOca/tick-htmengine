@@ -19,28 +19,31 @@ services:
     environment:
       RABBITMQ_ERLANG_COOKIE: 'EARLANGCOOKIE'
   htmengine:
-    build: ./htmengine
+    build: ../htmengine
     volumes:
-      - ./htmengine/app:/home/docker/htmengine-app
+      - ../htmengine/app:/home/docker/htmengine-app
+      - ./scripts/htmengine:/home/docker/scripts
     links:
       - mysql
       - rabbitmq
     ports:
       - "3002:8080"
+    entrypoint: /home/docker/scripts/startup.sh
   api:
     image: node:6.6.0
     volumes:
-      - ../:/var/lib/tick-htm
+      - ../app:/var/lib/tick-htm/app
+      - ./scripts/app:/var/lib/tick-htm/scripts
     links:
       - htmengine
     ports:
       - "3001:3000"
-    entrypoint: /var/lib/tick-htm/start.sh
+    entrypoint: /var/lib/tick-htm/scripts/startup.sh
   telegraf:
     image: telegraf:1.0.0-rc1
     volumes:
-      - ./etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-      - ../scripts:/var/lib/telegraf/shared
+      - ./config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ../scripts/telegraf:/var/lib/telegraf/shared
     links:
       - influxdb
       - api

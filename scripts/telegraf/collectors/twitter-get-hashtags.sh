@@ -2,4 +2,4 @@
 
 curl --silent -X GET http://api:3000/twitter/hashtags/follow4follow
 echo ''
-curl --silent -X GET http://api:3000/twitter/hashtags/JOANNE
+curl --silent -X GET http://api:3000/twitter/hashtags/bbcqt

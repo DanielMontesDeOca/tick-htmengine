@@ -1,5 +1,4 @@
 # Logs
-logs
 *.log
 npm-debug.log*
 
@@ -7,10 +6,14 @@ npm-debug.log*
 docker/data
 
 # HTMEngine
-docker/htmengine/app/src/logs/*
-docker/htmengine/app/src/supervisord.pid
-docker/htmengine/app/src/supervisor.sock
-docker/htmengine/app/supervisor.sock
+htmengine/app/src/logs/**.*
+htmengine/app/src/supervisord.pid
+htmengine/app/src/supervisor.sock
+htmengine/app/supervisor.sock
+htmengine/app/model_checkpoints/**.*
+
+# Telegraf
+scripts/telegraf/collectors/**.*
 
 # Runtime data
 pids

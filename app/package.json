@@ -1,11 +1,8 @@
 {
   "name": "tick-htm",
   "version": "1.0.0",
-  "description": "Telegraf twitter collector",
+  "description": "TICK-HTMEngine",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Daniel Montes de Oca",
   "license": "ISC",
   "dependencies": {
