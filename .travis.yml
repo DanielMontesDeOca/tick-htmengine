@@ -1,0 +1,16 @@
+sudo: required
+
+language: node_js
+node_js:
+  - "6"
+
+services:
+  - docker
+
+before_install:
+  - cd docker
+  - docker-compose -f docker-compose.yml -f docker-compose.test.yml build
+  - docker-compose up -d
+
+script:
+  - docker-compose -f docker-compose.yml -f docker-compose.test.yml run integration-tests
