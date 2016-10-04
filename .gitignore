@@ -11,6 +11,7 @@ htmengine/app/src/supervisord.pid
 htmengine/app/src/supervisor.sock
 htmengine/app/supervisor.sock
 htmengine/app/model_checkpoints/*
+*.pyc
 
 # Runtime data
 pids
