@@ -7,7 +7,9 @@ function validate(schema) {
   return (value) => {
     const validation = validator(schema);
 
-    return validation(value).should.be.eql(true, JSON.stringify(validation.errors));
+    validation(value).should.be.eql(true, JSON.stringify(validation.errors));
+
+    return value;
   };
 }
 
